@@ -1,4 +1,4 @@
-<project name="antprocess" basedir="" default="copy">
+<project name="antprocess" basedir="." default="copy">
 
 <property name="structure" value="E:/structurefolder"/>
 <property name="conf" value="${structure}\config"/>
@@ -89,7 +89,6 @@
 
 <target name="package" description="creating package" depends="copydir">
 <war destfile="C:\Program Files\Apache Software Foundation\Tomcat 8.0\webapps\java.war" basedir="${copyclass}" needxmlfile="false"/>
-<!-- <fileset dir="${copyjar}" includes="*.jar" excludes="*.txt"/> -->
 <echo message="packaging the files"/>
 <ant antfile="${test}"/>
 </target>
@@ -97,3 +96,5 @@
 <target name="copy" description="calling different targets" depends="package">
 <echo message="calling different targets using main"/>
 </target>
+
+</project>
