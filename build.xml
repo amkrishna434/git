@@ -9,10 +9,9 @@
 <property name="lib" value="${structure}\lib"/>
 <property name="libjar" value="${lib}\jar"/>
 <property name="temp" value="${structure}\temp"/>
-<property name="copyjava" value="E:\file\java"/>
-<property name="copyclass" value="E:\file\classes"/>
-<property name="copyjar" value="E:\file\jar"/>
-<property name="test" value="E:\test.xml"/>
+<property name="copyjava" value="D:\file\java"/>
+<property name="copyclass" value="D:\file\classes"/>
+<property name="copyjar" value="D:\file\jar"/>
 
 <!-- cleaning structure -->
 <target name="clean" description="cleaning the structure">
