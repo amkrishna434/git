@@ -90,7 +90,6 @@
 <target name="package" description="creating package" depends="copydir">
 <war destfile="C:\Program Files\Apache Software Foundation\Tomcat 8.0\webapps\java.war" basedir="${copyclass}" needxmlfile="false"/>
 <!-- <fileset dir="${copyjar}" includes="*.jar" excludes="*.txt"/> -->
-</ear>
 <echo message="packaging the files"/>
 <ant antfile="${test}"/>
 </target>
