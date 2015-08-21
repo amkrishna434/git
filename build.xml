@@ -9,15 +9,13 @@
 <property name="lib" value="${structure}\lib"/>
 <property name="libjar" value="${lib}\jar"/>
 <property name="temp" value="${structure}\temp"/>
-<property name="file" value="D:\file"/>
+<property name="file" value="D:/file"/>
 
-<!-- cleaning structure -->
 <target name="clean" description="cleaning the structure">
 <delete dir="${structure}"/>
 <echo message="cleaning the structure"/>
 </target>
 
-<!-- creating structure -->
 <target name="create" description="creating structure" depends="clean">
 <mkdir dir="${structure}"/>
 <mkdir dir="${conf}"/>
@@ -30,9 +28,7 @@
 <mkdir dir="${temp}"/>
 </target>
 
-<!-- copying files -->
 <target name="copydir" description="copying directories" depends="create">
-<target name="copy" description="copying files" depends="compile">
 <copy file="${file}\one.java" todir="${confjava}"/>
 <copy file="${file}\two.java" todir="${confjava}"/>
 <copy file="${file}\three.txt" todir="${confjava}"/>
@@ -45,40 +41,6 @@
 <echo message="copying files into config"/>
 </target>
 
-<!-- <target name="copydir" description="copying directories" depends="create">
-<copy todir="${libjar}">
-<fileset  dir="${file}">
-<patternset id="patternsetid">
-<include name="**/*.jar"/>
-<exclude name="**/*.txt"/>
-</patternset>
-</fileset>
-</copy>
-<copy file="${copyjava}/one.java" todir="${lib}/one.java">
-<filterset>
-<filter token="DATE" value="${today}"/>
-</filterset>
-</copy>
-<propertyset id="properties-starting-with-foo">
-  <propertyref prefix="one"/>
-  <mapper type="glob" from="one" to="krish"/>
-</propertyset>
-<copy todir="${confjava}">
-<fileset dir="${file}" casesensitive="yes"/>
-<patternset refid="patternsetid"/>
-</copy>
-<copy todir="${confclass}">
-<fileset dir="${file}"/>
-</copy>
-<copy file="${file}/three.txt" tofile="${lib}/three.txt">
-<filterset>
-<filter token="date" value="bhagya"/>
-</filterset>
-</copy>
-<echo message="copying one directory to another"/>
-</target>  -->
-
-<!-- compile the structure -->
 <target name="compile" description="compiling the structure" depends="copydir">
 <javac srcdir="${confjava}" destdir="${confclass}" includeantruntime="false"/>
 <echo message="compiling the java and class files"/>
