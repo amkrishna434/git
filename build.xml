@@ -9,6 +9,8 @@
 <property name="log_folder" value="E:\logfolders"/>
 <property name="day_file" value="E:\day_files"/>
 
+
+<!-- Copying Files -->
 <target name="copy" description="Copying files">
 
 <filelist 
