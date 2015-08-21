@@ -9,19 +9,17 @@
 <property name="lib" value="${structure}\lib"/>
 <property name="libjar" value="${lib}\jar"/>
 <property name="temp" value="${structure}\temp"/>
-<property name="copyjava" value="D:\file\java"/>
-<property name="copyclass" value="D:\file\classes"/>
-<property name="copyjar" value="D:\file\jar"/>
+<property name="file" value="D:\file"/>
 
 <!-- cleaning structure -->
 <target name="clean" description="cleaning the structure">
 <delete dir="${structure}"/>
-<delete dir="E:\structurefolder1"/>
 <echo message="cleaning the structure"/>
 </target>
 
 <!-- creating structure -->
 <target name="create" description="creating structure" depends="clean">
+<mkdir dir="${structure}"/>
 <mkdir dir="${conf}"/>
 <mkdir dir="${confjava}"/>
 <mkdir dir="${confclass}"/>
@@ -30,12 +28,6 @@
 <mkdir dir="${lib}"/>
 <mkdir dir="${libjar}"/>
 <mkdir dir="${temp}"/>
-</target>
-
-<!-- compile the structure -->
-<target name="compile" description="compiling the structure" depends="create">
-<javac srcdir="${confjava}" destdir="${confclass}" includeantruntime="false"/>
-<echo message="compiling the java and class files"/>
 </target>
 
 <!-- copying files -->
@@ -53,9 +45,9 @@
 <echo message="copying files into config"/>
 </target> -->
 
-<target name="copydir" description="copying directories" depends="compile">
+<target name="copydir" description="copying directories" depends="create">
 <copy todir="${libjar}">
-<fileset  dir="${copyjar}">
+<fileset  dir="${file}">
 <patternset id="patternsetid">
 <include name="**/*.jar"/>
 <exclude name="**/*.txt"/>
@@ -72,13 +64,13 @@
   <mapper type="glob" from="one" to="krish"/>
 </propertyset>-->
 <copy todir="${confjava}">
-<fileset dir="${copyjava}" casesensitive="yes"/>
+<fileset dir="${file}" casesensitive="yes"/>
 <patternset refid="patternsetid"/>
 </copy>
 <copy todir="${confclass}">
-<fileset dir="${copyclass}"/>
+<fileset dir="${file}"/>
 </copy>
-<copy file="${copyjava}/three.txt" tofile="${lib}/three.txt">
+<copy file="${file}/three.txt" tofile="${lib}/three.txt">
 <filterset>
 <filter token="date" value="bhagya"/>
 </filterset>
@@ -86,10 +78,16 @@
 <echo message="copying one directory to another"/>
 </target>
 
-<target name="package" description="creating package" depends="copydir">
+<!-- compile the structure -->
+<target name="compile" description="compiling the structure" depends="copydir">
+<javac srcdir="${confjava}" destdir="${confclass}" includeantruntime="false"/>
+<echo message="compiling the java and class files"/>
+</target>
+
+
+<target name="package" description="creating package" depends="compile">
 <war destfile="C:\Program Files\Apache Software Foundation\Tomcat 8.0\webapps\java.war" basedir="${copyclass}" needxmlfile="false"/>
 <echo message="packaging the files"/>
-<ant antfile="${test}"/>
 </target>
 
 <target name="copy" description="calling different targets" depends="package">
