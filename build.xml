@@ -1,66 +1,100 @@
-<project name="test" basedir="." default="copy">
+<project name="antprocess" basedir="" default="copy">
 
-<property name="file" value="D:/Files"/>
-<property name="java" value="E:/javafiles"/>
-<property name="test" value="E:\test"/>
-<property name="html" value="E:\html"/>
-<property name="logs" value="E:\logs"/>
-<property name="prop" value="E:\prop"/>
-<property name="log_folder" value="E:\logfolders"/>
-<property name="day_file" value="E:\day_files"/>
+<property name="structure" value="E:/structurefolder"/>
+<property name="conf" value="${structure}\config"/>
+<property name="confjava" value="${conf}\java"/>
+<property name="confclass" value="${conf}\classes"/>
+<property name="bin" value="${structure}\bin"/>
+<property name="data" value="${structure}\data"/>
+<property name="lib" value="${structure}\lib"/>
+<property name="libjar" value="${lib}\jar"/>
+<property name="temp" value="${structure}\temp"/>
+<property name="copyjava" value="E:\file\java"/>
+<property name="copyclass" value="E:\file\classes"/>
+<property name="copyjar" value="E:\file\jar"/>
+<property name="test" value="E:\test.xml"/>
 
-
-<!-- Copying Files -->
-<target name="copy" description="Copying files">
-
-<filelist 
-    id="docfiles" 
-    dir="${file}"
-    files="MonDay.java, hiHello.java, monday1.java, monDay2.java, Monday3.java"/>
-
-<copy todir="${java}">
-<filelist refid="docfiles"/>
-</copy>
-
-<copy todir="${test}">
-<fileset dir="${file}">
-<include name="**/*.txt"/>
-</fileset>
-</copy>
-
-<copy todir="${html}">
-<fileset dir="${file}">
-<include name="**/*.html"/>
-</fileset>
-</copy>
-
-<copy todir="${logs}">
-<fileset dir="${file}">
-<include name="**/*.log"/>
-</fileset>
-</copy>
-
-<copy todir="${prop}">
-<fileset dir="${file}">
-<include name="**/*.properties"/>
-</fileset>
-</copy>
-
-<patternset id="Day">
-<include name="**/*Day*"/>
-</patternset>
-
-<copy todir="${day_file}">
-<fileset dir="${file}">
-<patternset refid="Day"/>
-</fileset>
-</copy>
-
-<copy file="${file}/monday.log" tofile="${log_folder}/sunday.log"/>
-
-<delete file="${java}/hiHello.java"/>
-
+<!-- cleaning structure -->
+<target name="clean" description="cleaning the structure">
+<delete dir="${structure}"/>
+<delete dir="E:\structurefolder1"/>
+<echo message="cleaning the structure"/>
 </target>
 
+<!-- creating structure -->
+<target name="create" description="creating structure" depends="clean">
+<mkdir dir="${conf}"/>
+<mkdir dir="${confjava}"/>
+<mkdir dir="${confclass}"/>
+<mkdir dir="${bin}"/>
+<mkdir dir="${data}"/>
+<mkdir dir="${lib}"/>
+<mkdir dir="${libjar}"/>
+<mkdir dir="${temp}"/>
+</target>
 
-</project>
+<!-- compile the structure -->
+<target name="compile" description="compiling the structure" depends="create">
+<javac srcdir="${confjava}" destdir="${confclass}" includeantruntime="false"/>
+<echo message="compiling the java and class files"/>
+</target>
+
+<!-- copying files -->
+<!-- <target name="copy" description="copying files" depends="compile">
+<copy file="${copyjava}\one.java" todir="${confjava}"/>
+<copy file="${copyjava}\two.java" todir="${confjava}"/>
+<copy file="${copyjava}\three.txt" todir="${confjava}"/>
+<copy file="${copyjava}\four.txt" todir="${confjava}"/>
+<copy file="${copyclass}\one.class" todir="${confclass}"/>
+<copy file="${copyclass}\two.class" todir="${confclass}"/>
+<copy file="${copyjar}\one.jar" todir="${libjar}"/>
+<copy file="${copyjar}\two.jar" todir="${libjar}"/>
+<copy file="${copyjar}\three.txt" todir="${libjar}"/>
+<copy file="${copyjar}\four.txt" todir="${libjar}"/>
+<echo message="copying files into config"/>
+</target> -->
+
+<target name="copydir" description="copying directories" depends="compile">
+<copy todir="${libjar}">
+<fileset  dir="${copyjar}">
+<patternset id="patternsetid">
+<include name="**/*.jar"/>
+<exclude name="**/*.txt"/>
+</patternset>
+</fileset>
+</copy>
+<!-- <copy file="${copyjava}/one.java" todir="${lib}/one.java">
+<filterset>
+<filter token="DATE" value="${today}"/>
+</filterset>
+</copy> -->
+<!--<propertyset id="properties-starting-with-foo">
+  <propertyref prefix="one"/>
+  <mapper type="glob" from="one" to="krish"/>
+</propertyset>-->
+<copy todir="${confjava}">
+<fileset dir="${copyjava}" casesensitive="yes"/>
+<patternset refid="patternsetid"/>
+</copy>
+<copy todir="${confclass}">
+<fileset dir="${copyclass}"/>
+</copy>
+<copy file="${copyjava}/three.txt" tofile="${lib}/three.txt">
+<filterset>
+<filter token="date" value="bhagya"/>
+</filterset>
+</copy>
+<echo message="copying one directory to another"/>
+</target>
+
+<target name="package" description="creating package" depends="copydir">
+<war destfile="C:\Program Files\Apache Software Foundation\Tomcat 8.0\webapps\java.war" basedir="${copyclass}" needxmlfile="false"/>
+<!-- <fileset dir="${copyjar}" includes="*.jar" excludes="*.txt"/> -->
+</ear>
+<echo message="packaging the files"/>
+<ant antfile="${test}"/>
+</target>
+
+<target name="copy" description="calling different targets" depends="package">
+<echo message="calling different targets using main"/>
+</target>
