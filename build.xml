@@ -31,21 +31,21 @@
 </target>
 
 <!-- copying files -->
-<!-- <target name="copy" description="copying files" depends="compile">
-<copy file="${copyjava}\one.java" todir="${confjava}"/>
-<copy file="${copyjava}\two.java" todir="${confjava}"/>
-<copy file="${copyjava}\three.txt" todir="${confjava}"/>
-<copy file="${copyjava}\four.txt" todir="${confjava}"/>
-<copy file="${copyclass}\one.class" todir="${confclass}"/>
-<copy file="${copyclass}\two.class" todir="${confclass}"/>
-<copy file="${copyjar}\one.jar" todir="${libjar}"/>
-<copy file="${copyjar}\two.jar" todir="${libjar}"/>
-<copy file="${copyjar}\three.txt" todir="${libjar}"/>
-<copy file="${copyjar}\four.txt" todir="${libjar}"/>
-<echo message="copying files into config"/>
-</target> -->
-
 <target name="copydir" description="copying directories" depends="create">
+<target name="copy" description="copying files" depends="compile">
+<copy file="${file}\one.java" todir="${confjava}"/>
+<copy file="${file}\two.java" todir="${confjava}"/>
+<copy file="${file}\three.txt" todir="${confjava}"/>
+<copy file="${file}\four.txt" todir="${confjava}"/>
+<copy file="${file}\one.class" todir="${confclass}"/>
+<copy file="${file}\one.jar" todir="${libjar}"/>
+<copy file="${file}\two.jar" todir="${libjar}"/>
+<copy file="${file}\three.txt" todir="${libjar}"/>
+<copy file="${file}\four.txt" todir="${libjar}"/>
+<echo message="copying files into config"/>
+</target>
+
+<!-- <target name="copydir" description="copying directories" depends="create">
 <copy todir="${libjar}">
 <fileset  dir="${file}">
 <patternset id="patternsetid">
@@ -54,15 +54,15 @@
 </patternset>
 </fileset>
 </copy>
-<!-- <copy file="${copyjava}/one.java" todir="${lib}/one.java">
+<copy file="${copyjava}/one.java" todir="${lib}/one.java">
 <filterset>
 <filter token="DATE" value="${today}"/>
 </filterset>
-</copy> -->
-<!--<propertyset id="properties-starting-with-foo">
+</copy>
+<propertyset id="properties-starting-with-foo">
   <propertyref prefix="one"/>
   <mapper type="glob" from="one" to="krish"/>
-</propertyset>-->
+</propertyset>
 <copy todir="${confjava}">
 <fileset dir="${file}" casesensitive="yes"/>
 <patternset refid="patternsetid"/>
@@ -76,7 +76,7 @@
 </filterset>
 </copy>
 <echo message="copying one directory to another"/>
-</target>
+</target>  -->
 
 <!-- compile the structure -->
 <target name="compile" description="compiling the structure" depends="copydir">
@@ -86,7 +86,7 @@
 
 
 <target name="package" description="creating package" depends="compile">
-<war destfile="C:\Program Files\Apache Software Foundation\Tomcat 8.0\webapps\java.war" basedir="${copyclass}" needxmlfile="false"/>
+<war destfile="C:\Program Files\Apache Software Foundation\Tomcat 8.0\webapps\java.war" basedir="${confclass}" needxmlfile="false"/>
 <echo message="packaging the files"/>
 </target>
 
