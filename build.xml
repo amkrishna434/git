@@ -1,0 +1,64 @@
+<project name="test" basedir="." default="copy">
+
+<property name="file" value="D:/Files"/>
+<property name="java" value="E:/javafiles"/>
+<property name="test" value="E:\test"/>
+<property name="html" value="E:\html"/>
+<property name="logs" value="E:\logs"/>
+<property name="prop" value="E:\prop"/>
+<property name="log_folder" value="E:\logfolders"/>
+<property name="day_file" value="E:\day_files"/>
+
+<target name="copy" description="Copying files">
+
+<filelist 
+    id="docfiles" 
+    dir="${file}"
+    files="MonDay.java, hiHello.java, monday1.java, monDay2.java, Monday3.java"/>
+
+<copy todir="${java}">
+<filelist refid="docfiles"/>
+</copy>
+
+<copy todir="${test}">
+<fileset dir="${file}">
+<include name="**/*.txt"/>
+</fileset>
+</copy>
+
+<copy todir="${html}">
+<fileset dir="${file}">
+<include name="**/*.html"/>
+</fileset>
+</copy>
+
+<copy todir="${logs}">
+<fileset dir="${file}">
+<include name="**/*.log"/>
+</fileset>
+</copy>
+
+<copy todir="${prop}">
+<fileset dir="${file}">
+<include name="**/*.properties"/>
+</fileset>
+</copy>
+
+<patternset id="Day">
+<include name="**/*Day*"/>
+</patternset>
+
+<copy todir="${day_file}">
+<fileset dir="${file}">
+<patternset refid="Day"/>
+</fileset>
+</copy>
+
+<copy file="${file}/monday.log" tofile="${log_folder}/sunday.log"/>
+
+<delete file="${java}/hiHello.java"/>
+
+</target>
+
+
+</project>
